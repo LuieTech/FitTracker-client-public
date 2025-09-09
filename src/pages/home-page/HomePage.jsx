@@ -2,7 +2,7 @@ import React from "react";
 import "./HomePage.css"
 import { Route, Routes } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Exercises from "../../components/exercises/Exercises";
+import Exercises from "../../components/workouts/Workouts";
 import TrainerDetails from "../../components/trainer-details/TrainerDetails";
 import Clients from "../../components/clients/Clients";
 

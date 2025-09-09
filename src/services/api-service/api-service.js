@@ -12,6 +12,7 @@ export function getRapidApi(){
   return apiService.get('/exercises')
     .then(res => {
       console.log("This is rsponse from api.service file", res.data);
+      return res.data
       
     })
     .catch(err => console.error("Error while fetching in api.service file", err) )
