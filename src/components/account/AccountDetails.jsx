@@ -1,8 +1,7 @@
-// src/pages/trainer-details/TrainerDetails.jsx
-
 import React, { useState } from "react";
 
-export default function TrainerDetails() {
+export default function AccountDetails() {
+
   const [status, setStatus] = useState(true);
 
   const trainer = {
@@ -83,21 +82,20 @@ export default function TrainerDetails() {
           <h5 className="text-primary">{trainer.clients?.length || 0}</h5>
         </div>
         <div className="col-md-6 d-flex align-items-center">
-  <label className="form-label text-muted me-3">Status</label>
-  <div className="form-check form-switch">
-    <input
-      className="form-check-input"
-      type="checkbox"
-      id="statusSwitch"
-      checked={status}
-      onChange={() => setStatus(prev => !prev)}
-    />
-    <label className="form-check-label" htmlFor="statusSwitch">
-      {status ? "Active" : "Inactive"}
-    </label>
-  </div>
-</div>
-
+          <label className="form-label text-muted me-3">Status</label>
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="statusSwitch"
+              checked={status}
+              onChange={() => setStatus((prev) => !prev)}
+            />
+            <label className="form-check-label" htmlFor="statusSwitch">
+              {status ? "Active" : "Inactive"}
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   );

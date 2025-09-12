@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getRapidApi } from "../../services/api-service/api-service";
+import { getRapidApi } from "../../services/rapidapi.service";
 import WorkoutDetails from "./WorkoutDetails";
 
 function Workouts() {
