@@ -1,24 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAccountContext } from "../../context/account.context";
 
 export default function AccountDetails() {
 
+  const {trainer} = useAccountContext()
   const [status, setStatus] = useState(true);
 
-  const trainer = {
-    nickname: "John",
-    firstName: "John",
-    lastName: "Smith",
-    email: "j.smith@example.com",
-    phone: "(123) 456-7890",
-    status: "Active",
-    clients: 8,
-    exercisesAssigned: 27,
-    birthday: "1993-05-29",
-    numClients: 54,
-    notes: "",
-  };
+  const autoLogin = async () => {
+    const token = localStorage
+  }
+  
+  useEffect(() => {
 
-  let age = new Date().getFullYear() - new Date(trainer.birthday).getFullYear();
+    //posible for updating clients list
+
+  }, [])
+
 
   return (
     <div
@@ -29,17 +26,17 @@ export default function AccountDetails() {
 
       <div className="mb-3">
         <label className="form-label text-muted">User nickname</label>
-        <h5 className="text-secondary">{trainer.nickname}</h5>
+        <h5 className="text-secondary">Default Trainer</h5>
       </div>
 
       <div className="row">
         <div className="col-md-6 mb-3">
           <label className="form-label text-muted">First Name</label>
-          <h5 className="text-secondary">{trainer.firstName}</h5>
+          <h5 className="text-secondary">{trainer.name}</h5>
         </div>
         <div className="col-md-6 mb-3">
           <label className="form-label text-muted">Last Name</label>
-          <h5 className="text-secondary">{trainer.lastName}</h5>
+          <h5 className="text-secondary">{trainer.username}</h5>
         </div>
       </div>
 
@@ -61,11 +58,11 @@ export default function AccountDetails() {
       <div className="row mb-3">
         <div className="col-md-6">
           <label className="form-label text-muted">Age</label>
-          <h5 className="text-secondary">{age}</h5>
+          <h5 className="text-secondary">32</h5>
         </div>
         <div className="col-md-6">
           <label className="form-label text-muted">Mobile phone</label>
-          <h5 className="text-secondary">{trainer.phone}</h5>
+          <h5 className="text-secondary">{trainer.phoneNumber}</h5>
         </div>
       </div>
 
