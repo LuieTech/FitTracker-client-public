@@ -46,6 +46,7 @@ function AccountProviderWrapper({ children }) {
     trainerId,
     setTrainerId,
     logout,
+    
   };
 
   console.log("This is the trainer logged: ", trainer, trainerId);
