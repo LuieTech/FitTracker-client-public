@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./HomePage.css"
 import { Route, Routes } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -7,6 +7,12 @@ import AccountDetails from "../../components/account/AccountDetails";
 import Clients from "../../components/clients/Clients";
 
 function HomePage() {
+
+  const [clientsCount, setClientsCount] = useState(0)
+
+  console.log("This is clientsCount from HomePage", clientsCount)
+
+
   return (
     <div className="d-flex page-container" >
       <div className="sidebar-section">
@@ -31,9 +37,9 @@ function HomePage() {
       <div className="content-section">
         <section className="">
           <Routes >
-            <Route path="trainer-details" element={<AccountDetails />} />
+            <Route path="trainer-details" element={<AccountDetails clientsCount={clientsCount}/>} />
             <Route path="exercises" element={<Exercises />} />
-            <Route path="clients" element={<Clients />} />
+            <Route path="clients" element={<Clients onClientsChange={setClientsCount}/>} />
 
             <Route path="*" element={<AccountDetails />} />
           </Routes>

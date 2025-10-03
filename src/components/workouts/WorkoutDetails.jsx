@@ -5,7 +5,7 @@ function WorkoutDetails({ list }) {
 
   return (
     <div>
-      <div className="card" style={{ width: "100%" }}>
+      <div className="card" style={{ width: "100%", height:"800px" }}>
         <div className="d-flex justify-content-center ">
           <img
             src={gifUrl}

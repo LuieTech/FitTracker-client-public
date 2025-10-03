@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAccountContext } from "../../context/account.context";
 
-export default function AccountDetails() {
+export default function AccountDetails({clientsCount}) {
 
   const {trainer} = useAccountContext()
   const [status, setStatus] = useState(true);
@@ -16,6 +16,8 @@ export default function AccountDetails() {
 
   }, [])
 
+
+  console.log("This is clients lenght from AcccountDetails: ", clientsCount)
 
   return (
     <div
@@ -76,7 +78,7 @@ export default function AccountDetails() {
       <div className="row mb-3">
         <div className="col-md-6">
           <label className="form-label text-muted">Clients</label>
-          <h5 className="text-primary">{trainer.clients?.length || 0}</h5>
+          <h5 className="text-primary">{clientsCount}</h5>
         </div>
         <div className="col-md-6 d-flex align-items-center">
           <label className="form-label text-muted me-3">Status</label>

@@ -4,7 +4,7 @@ import { createClient, getClients } from "../../services/client.service";
 import { useAccountContext } from "../../context/account.context";
 import { Link } from "react-router-dom";
 
-function Clients() {
+function Clients({onClientsChange}) {
   const [clients, setClients] = useState(null);
   const { trainer, trainerId } = useAccountContext();
 
@@ -15,7 +15,8 @@ function Clients() {
   const obtainClients = async (trainerId) => {
     const response = await getClients(trainerId);
     setClients(response)
-    console.log("This is clients List from Clients Component", response);
+    onClientsChange(response.length);
+    console.log("This is clients length from Clients Component", response.length);
   };
 
   const handleCreate = (data) => {
@@ -27,8 +28,8 @@ function Clients() {
   };
 
   const clientsList = clients?.map((cl) => (
-    <Link to={`/homepage/client-details/${cl.id}`} key={cl.id}>
-      <div className="card">
+    <Link to={`/homepage/client-details/${cl.id}`} key={cl.id} className="text-decoration-none">
+      <div className="card p-3 ">
         <h5 className="card-title"> {cl.name} </h5>
         <div className="d-flex flex-column gap-2 pt-2">
           <p>
@@ -48,7 +49,7 @@ function Clients() {
         <CreateClient onCreate={handleCreate} />
       </div>
 
-      <div className="container">
+      <div className="row row-cols-1 row-cols-md-3 g-4">
         {clientsList}
       </div>
     </div>
