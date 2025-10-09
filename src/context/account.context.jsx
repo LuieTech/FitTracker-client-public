@@ -9,33 +9,46 @@ function AccountProviderWrapper({ children }) {
   const [trainerId, setTrainerId] = useState(null);
   const [clients, setClients] = useState(null);
 
-  useEffect(() => {
-    const autoLogin = async () => {
-      const token = localStorage.getItem("authToken");
+useEffect(() => {
+  const autoLogin = async () => {
+    const token = localStorage.getItem("authToken");
 
-      try {
-        let trainerData;
-        if (!token) {
+    try {
+      let trainerData;
+
+      if (!token) {
+        trainerData = await loginTrainer({
+          email: "j.smith@example.com",
+          password: "12345678",
+        });
+      } else {
+        try {
+          trainerData = await refreshTrainerData();
+        } catch (refreshError) {
+          // Si el refresh falla, limpiar storage y hacer login manual
+          console.warn("Refresh failed, logging in manually...");
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("refreshToken");
           trainerData = await loginTrainer({
             email: "j.smith@example.com",
             password: "12345678",
           });
-        } else {
-          trainerData = await refreshTrainerData();
         }
-
-        setTrainer(trainerData);
-        setTrainerId(trainerData.id);
-
-        const clientList = await getClients(trainerData.id);
-        setClients(clientList);
-      } catch (error) {
-        console.log("Auto-login or refresh failed", error);
       }
-    };
 
-    autoLogin();
-  }, []);
+      setTrainer(trainerData);
+      setTrainerId(trainerData.id);
+
+      const clientList = await getClients(trainerData.id);
+      setClients(clientList);
+    } catch (error) {
+      console.log("Auto-login failed", error);
+    }
+  };
+
+  autoLogin();
+}, []);
+
 
   const value = {
     trainer,
