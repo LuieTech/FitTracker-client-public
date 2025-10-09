@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAccountContext } from "../../context/account.context";
 
 function CreateClient({ onCreate }) {
-  const { trainerId, trainer } = useAccountContext();
+  const { trainerId } = useAccountContext();
 
   const initialFormData = {
     trainer: "",

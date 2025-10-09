@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useAccountContext } from "../../context/account.context";
+import { getClients } from "../../services/client.service";
 
-export default function AccountDetails({clientsCount}) {
+export default function AccountDetails() {
 
-  const {trainer} = useAccountContext()
+  const {trainer, clientsCount, setClientsCount, refreshClients} = useAccountContext()
   const [status, setStatus] = useState(true);
 
-  const autoLogin = async () => {
-    const token = localStorage
-  }
+
   
   useEffect(() => {
 
-    //posible for updating clients list
+    refreshClients()
 
   }, [])
 

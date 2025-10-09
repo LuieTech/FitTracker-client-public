@@ -16,7 +16,17 @@ service.interceptors.request.use(
     }
     return config;
   },
+  (error) => Promise.reject(error)
+);
+
+service.interceptors.response.use(
+  (response) => response,
   (error) => {
+    if (error.response && error.response.status === 403) {
+      console.warn("Token expirado o inválido. Limpiando localStorage.");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
+    }
     return Promise.reject(error);
   }
 );
@@ -41,12 +51,3 @@ export function getClients(trainerId) {
     });
 }
 
-export function getClientsByTrainerId(trainerId) {
-  return service
-    .get(`/trainers/clients/` + trainerId)
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error("Error fetching clients:", error.response.data.message);
-      return [];
-    });
-}

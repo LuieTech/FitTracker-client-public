@@ -8,10 +8,6 @@ import Clients from "../../components/clients/Clients";
 
 function HomePage() {
 
-  const [clientsCount, setClientsCount] = useState(0)
-
-  console.log("This is clientsCount from HomePage", clientsCount)
-
 
   return (
     <div className="d-flex page-container" >
@@ -37,9 +33,9 @@ function HomePage() {
       <div className="content-section">
         <section className="">
           <Routes >
-            <Route path="trainer-details" element={<AccountDetails clientsCount={clientsCount}/>} />
+            <Route path="account-details" element={<AccountDetails />} />
             <Route path="exercises" element={<Exercises />} />
-            <Route path="clients" element={<Clients onClientsChange={setClientsCount}/>} />
+            <Route path="clients" element={<Clients />} />
 
             <Route path="*" element={<AccountDetails />} />
           </Routes>

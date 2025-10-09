@@ -4,24 +4,29 @@ import { createClient, getClients } from "../../services/client.service";
 import { useAccountContext } from "../../context/account.context";
 import { Link } from "react-router-dom";
 
-function Clients({onClientsChange}) {
+function Clients() {
   const [clients, setClients] = useState(null);
   const { trainer, trainerId } = useAccountContext();
 
-  useEffect(() => {
+useEffect(() => {
+  if (trainerId) {
     obtainClients(trainerId);
-  }, []);
+  }
+}, [trainerId]); // <-- depend on trainerId
+
 
   const obtainClients = async (trainerId) => {
     const response = await getClients(trainerId);
     setClients(response)
-    onClientsChange(response.length);
     console.log("This is clients length from Clients Component", response.length);
   };
 
   const handleCreate = (data) => {
     createClient(data)
-      .then(() => obtainClients(trainer.id))
+      .then(() => {
+        obtainClients(trainer.id)
+        getClients(trainer.id)
+      })
       .catch((err) =>
         console.error("Error while fetching clients at CL Component: ", err)
       );

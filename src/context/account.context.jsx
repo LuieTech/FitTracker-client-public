@@ -8,6 +8,7 @@ function AccountProviderWrapper({ children }) {
   const [trainer, setTrainer] = useState({});
   const [trainerId, setTrainerId] = useState(null);
   const [clients, setClients] = useState(null);
+  const [clientsCount, setClientsCount] = useState(0)
 
 useEffect(() => {
   const autoLogin = async () => {
@@ -26,7 +27,7 @@ useEffect(() => {
           trainerData = await refreshTrainerData();
         } catch (refreshError) {
           // Si el refresh falla, limpiar storage y hacer login manual
-          console.warn("Refresh failed, logging in manually...");
+          console.warn("Refresh failed, logging in manually...", refreshError);
           localStorage.removeItem("authToken");
           localStorage.removeItem("refreshToken");
           trainerData = await loginTrainer({
@@ -41,6 +42,7 @@ useEffect(() => {
 
       const clientList = await getClients(trainerData.id);
       setClients(clientList);
+      setClientsCount(clientList.length)
     } catch (error) {
       console.log("Auto-login failed", error);
     }
@@ -49,14 +51,22 @@ useEffect(() => {
   autoLogin();
 }, []);
 
+  const refreshClients = async () => {
+    getClients(trainer.id).then(res => setClientsCount(res.length))
+  }
+
 
   const value = {
     trainer,
     setTrainer,
     trainerId,
     setTrainerId,
+    setClients,
     clients,
-    // logout,
+    clientsCount,
+    setClientsCount,
+    refreshClients
+    
   };
 
   console.log("This is the trainer logged: ", trainer, trainerId);
