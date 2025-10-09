@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 const service = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
@@ -7,7 +7,11 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
-    if (token && config.url !== '/auth/register' && config.url !== '/auth/login') {
+    if (
+      token &&
+      config.url !== "/auth/register" &&
+      config.url !== "/auth/login"
+    ) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -21,12 +25,13 @@ export function createClient(body) {
   return service
     .post("/clients", body)
     .then((res) => res.data)
-    .catch((error) =>
-      console.log("Error while creating client in service: ", error)
-    );
+    .catch((error) => {
+      console.log("Error while creating client in service: ", error);
+      throw error;
+    });
 }
 
-export function getClients(trainerId){
+export function getClients(trainerId) {
   return service
     .get(`/trainers/clients/` + trainerId)
     .then((response) => response.data)

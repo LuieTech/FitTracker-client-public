@@ -7,12 +7,26 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
-    if (token && config.url !== '/auth/register' && config.url !== '/auth/login') {
+    if (
+      token &&
+      config.url !== "/auth/register" &&
+      config.url !== "/auth/login"
+    ) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
+  (error) => Promise.reject(error)
+);
+
+service.interceptors.response.use(
+  (response) => response,
   (error) => {
+    if (error.response && error.response.status === 403) {
+      console.warn("Token expirado o inválido. Limpiando localStorage.");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
+    }
     return Promise.reject(error);
   }
 );
@@ -29,9 +43,13 @@ export function loginTrainer(body) {
     .catch((error) => console.log("Error during login: ", error));
 }
 
-export function refreshTrainerData(){
+export function refreshTrainerData() {
   return service
     .get("/auth/me")
-    .then((response) => response.data)
-    .catch((error) => console.log("Error during refreshing user: ", error));
+    .then((res) => res.data)
+    .catch((error) => {
+      console.log("Error during refreshing user: ", error);
+      throw error; // <--- este throw es importante para que el catch en AccountContext lo capture
+    });
 }
+

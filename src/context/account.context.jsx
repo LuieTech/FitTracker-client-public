@@ -1,18 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginTrainer, refreshTrainerData } from "../services/account.service";
+import { getClients } from "../services/client.service";
 
 const AccountContext = createContext();
 
 function AccountProviderWrapper({ children }) {
   const [trainer, setTrainer] = useState({});
   const [trainerId, setTrainerId] = useState(null);
-
-  const logout = () => {
-    setTrainer({});
-    setTrainerId(null);
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("refreshToken");
-  };
+  const [clients, setClients] = useState(null);
 
   useEffect(() => {
     const autoLogin = async () => {
@@ -31,9 +26,11 @@ function AccountProviderWrapper({ children }) {
 
         setTrainer(trainerData);
         setTrainerId(trainerData.id);
+
+        const clientList = await getClients(trainerData.id);
+        setClients(clientList);
       } catch (error) {
         console.log("Auto-login or refresh failed", error);
-        logout();
       }
     };
 
@@ -45,17 +42,14 @@ function AccountProviderWrapper({ children }) {
     setTrainer,
     trainerId,
     setTrainerId,
-    logout,
-    
+    clients,
+    // logout,
   };
 
   console.log("This is the trainer logged: ", trainer, trainerId);
-  
 
   return (
-    <AccountContext.Provider value={value}>
-      {children}
-    </AccountContext.Provider>
+    <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
   );
 }
 
