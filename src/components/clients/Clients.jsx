@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 
 function Clients() {
   const [clients, setClients] = useState(null);
-  const { trainer, trainerId } = useAccountContext();
+  const { trainer } = useAccountContext();
 
 useEffect(() => {
-  if (trainerId) {
-    obtainClients(trainerId);
+  if (trainer.id) {
+    obtainClients(trainer.id);
   }
-}, [trainerId]); // <-- depend on trainerId
+}, [trainer.id]); // <-- depend on trainerId
 
 
   const obtainClients = async (trainerId) => {
@@ -33,7 +33,7 @@ useEffect(() => {
   };
 
   const clientsList = clients?.map((cl) => (
-    <Link to={`/homepage/client-details/${cl.id}`} key={cl.id} className="text-decoration-none">
+    <Link to={`/home/client-details/${cl.id}`} key={cl.id} className="text-decoration-none">
       <div className="card p-3 ">
         <h5 className="card-title"> {cl.name} </h5>
         <div className="d-flex flex-column gap-2 pt-2">

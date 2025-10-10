@@ -5,6 +5,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Exercises from "../../components/workouts/Workouts";
 import AccountDetails from "../../components/account/AccountDetails";
 import Clients from "../../components/clients/Clients";
+import ClientDetails from "../../components/clients/ClientDetails";
 
 function HomePage() {
 
@@ -36,6 +37,7 @@ function HomePage() {
             <Route path="account-details" element={<AccountDetails />} />
             <Route path="exercises" element={<Exercises />} />
             <Route path="clients" element={<Clients />} />
+            <Route path="client-details/:clientId" element={<ClientDetails />} />
 
             <Route path="*" element={<AccountDetails />} />
           </Routes>

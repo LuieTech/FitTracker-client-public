@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function Sidebar() {
 
-  const navigate = useNavigate();
 
   return (
     <div className='d-flex flex-column justify-content-center gap-5 pb-5'>
