@@ -51,3 +51,14 @@ export function getClients(trainerId) {
     });
 }
 
+export function getClientById(clientId) {
+
+  return service
+    .get("/clients/" + clientId)
+    .then(response => response.data)
+    .catch((error) => {
+      console.error("Error fetching clientById: ", error.response.data.message);
+      return {};
+    });
+
+}

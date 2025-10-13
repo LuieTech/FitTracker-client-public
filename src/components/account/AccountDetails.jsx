@@ -27,7 +27,7 @@ export default function AccountDetails() {
 
       <div className="mb-3">
         <label className="form-label text-muted">User nickname</label>
-        <h5 className="text-secondary">Default Trainer</h5>
+        <h5 className="text-secondary">John</h5>
       </div>
 
       <div className="row">
