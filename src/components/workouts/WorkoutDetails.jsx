@@ -16,7 +16,7 @@ function WorkoutDetails({ list }) {
         }}
       >
         {/* Image */}
-        <div className="d-flex justify-content-center p-2">
+        <div className="d-flex justify-content-center p-">
           <img
             src={gifUrl}
             className="card-img-top"

@@ -15,9 +15,9 @@ function HomePage() {
       <div className="sidebar-section">
         <section>
           <header className="d-flex align-items-center justify-content-center gap-2">
-            <img src="/images/favicon.ico" alt="Logo-image" />
+            <img src="/images/favicon.ico" alt="Logo-image" style={{width: "40px"}}/>
             <span>
-              <h3>FitTracker</h3>
+              <h4 >FitTracker</h4>
             </span>
           </header>
         </section>
