@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useAccountContext } from "../../context/account.context";
 import { getClientById } from "../../services/client.service";
+import ClientExercises from "./ClientExercises";
 
 function ClientDetails() {
   const { clientId } = useParams();
   const [client, setClient] = useState(null);
   const [status, setStatus] = useState("active");
+  const [showExercises, setShowExercises] = useState(false);
 
   const getClient = async () => {
     try {
@@ -22,7 +22,8 @@ function ClientDetails() {
 
   useEffect(() => {
     getClient();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clientId]);
 
   console.log("This is the client object: ", client);
 
@@ -106,6 +107,29 @@ function ClientDetails() {
   </div>
 </div>
 
+      {/* Show Exercises Button */}
+      <div className="mt-4 mb-3 d-flex justify-content-center">
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={() => setShowExercises((prev) => !prev)}
+        >
+          {showExercises ? (
+            <>
+              <i className="bi bi-chevron-up me-2"></i>
+              Hide Exercises
+            </>
+          ) : (
+            <>
+              <i className="bi bi-chevron-down me-2"></i>
+              Show Exercises
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Client Exercises Component */}
+      {showExercises && clientId && <ClientExercises clientId={clientId} />}
     </div>
   );
 }

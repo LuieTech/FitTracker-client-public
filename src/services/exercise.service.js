@@ -53,11 +53,11 @@ export function addExercise(exercise) {
 
 export function getExercisesByClientId(clientId) {
   return service
-    .get(`/exercises/client/${clientId}`)
+    .get(`/clients/exercises/${clientId}`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error fetching exercises by client:", error);
-      return [];
+      console.error("Error while getting exercise in exercise service: ", error);
+      throw error;
     });
 }
 
