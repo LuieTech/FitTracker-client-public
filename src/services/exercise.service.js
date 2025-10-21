@@ -19,19 +19,27 @@ service.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// exercise.service.js
 service.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 403) {
-      console.warn("Token expirado o inválido. Limpiando localStorage y recargando...");
+    const status = error?.response?.status;
+
+    if (status === 401 || status === 403) {
+      console.warn("Token expired/invalid. Clearing storage…");
       localStorage.removeItem("authToken");
       localStorage.removeItem("refreshToken");
-      // Reload the page to trigger auto-login in AccountContext
-      window.location.reload();
+
+      // Don't nuke the page while debugging
+      if (!import.meta.env.DEV) {
+        window.location.reload();
+      }
     }
+
     return Promise.reject(error);
   }
 );
+
 
 export function addExercise(exercise) {
   return service

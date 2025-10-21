@@ -41,9 +41,9 @@ function Workouts() {
         const modifiedExercise = {
           gifUrl: exercise.gifUrl,
           name: exercise.name,
-          instructions: exercise.description,
+          instructions: exercise.instructions,
           bodyPart: exercise.bodyPart,
-          client: { id: selectedClient.id },
+          client: { id: selectedClient.id.toString() },
         };
         
         console.log("Sending exercise to backend:", modifiedExercise);
@@ -72,6 +72,7 @@ function Workouts() {
     >
       <WorkoutDetails list={exercise} />
       <button 
+        type="button"
         className="btn btn-primary w-100 mt-2 mb-2"
         onClick={() => saveExerciseToBackend(exercise)}
         disabled={!selectedClient}
