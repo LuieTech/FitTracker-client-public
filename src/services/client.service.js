@@ -23,9 +23,11 @@ service.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 403) {
-      console.warn("Token expirado o inválido. Limpiando localStorage.");
+      console.warn("Token expirado o inválido. Limpiando localStorage y recargando...");
       localStorage.removeItem("authToken");
       localStorage.removeItem("refreshToken");
+      // Reload the page to trigger auto-login in AccountContext
+      window.location.reload();
     }
     return Promise.reject(error);
   }

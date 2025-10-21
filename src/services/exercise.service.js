@@ -33,25 +33,23 @@ service.interceptors.response.use(
   }
 );
 
-export function loginTrainer(body) {
+export function addExercise(exercise) {
   return service
-    .post("/auth/login", body)
-    .then((response) => {
-      localStorage.setItem("authToken", response.data.token);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-      return service.get("/auth/me");
-    })
-    .then((res) => res.data)
-    .catch((error) => console.log("Error during login: ", error));
-}
-
-export function refreshTrainerData() {
-  return service
-    .get("/auth/me")
+    .post("/exercises", exercise)
     .then((res) => res.data)
     .catch((error) => {
-      console.log("Error during refreshing user: ", error);
-      throw error; // <--- este throw es importante para que el catch en AccountContext lo capture
+      console.error("Error while adding exercise in service file: ", error);
+      throw error;
+    });
+}
+
+export function getExercisesByClientId(clientId) {
+  return service
+    .get(`/exercises/client/${clientId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error fetching exercises by client:", error);
+      return [];
     });
 }
 
