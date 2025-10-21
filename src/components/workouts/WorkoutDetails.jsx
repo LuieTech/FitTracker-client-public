@@ -16,12 +16,12 @@ function WorkoutDetails({ list }) {
         }}
       >
         {/* Image */}
-        <div className="d-flex justify-content-center p-">
+        <div className="d-flex justify-content-center p-2">
           <img
             src={gifUrl}
             className="card-img-top"
             alt="Workout-image"
-            style={{ width: "50%", height: "140px", objectFit: "contain" }}
+            style={{ width: "50%", height: "170px", objectFit: "contain" }}
           />
         </div>
 
