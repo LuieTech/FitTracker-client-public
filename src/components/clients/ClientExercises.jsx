@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { deleteExercise, getExercisesByClientId } from "../../services/exercise.service";
 
 function ClientExercises({ clientId }) {
@@ -6,17 +6,8 @@ function ClientExercises({ clientId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState("");
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationTimeout, setNotificationTimeout] = useState(null);
 
-
-  useEffect(() => {
-    if (clientId) {
-      fetchClientExercises();
-    }
-  }, [clientId]);
-
-  const fetchClientExercises = async () => {
+  const fetchClientExercises = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getExercisesByClientId(clientId);
@@ -28,7 +19,20 @@ function ClientExercises({ clientId }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [clientId]);
+
+  useEffect(() => {
+    if (clientId) {
+      fetchClientExercises();
+    }
+  }, [clientId, fetchClientExercises]);
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
   if (loading) {
     return (
@@ -60,21 +64,39 @@ function ClientExercises({ clientId }) {
     try {
       await deleteExercise(exerciseId);
       setExercises(exercises.filter((exercise) => exercise.id !== exerciseId));
-      setNotification("Exercise deleted successfully");
-      setTimeout(() => {
-        setNotification("");
-      }, 3000);
-      // fetchClientExercises();
+      setNotification("Exercise deleted successfully!");
     } catch (err) {
-      setNotification("Failed to delete exercise: " + err.message);
-      setTimeout(() => {
-        setNotification("");
-      }, 3000);
+      console.error("Error deleting exercise:", err);
+      setNotification(`Failed to delete exercise: ${err.response?.data?.message || err.message}`);
     }
   };
 
   return (
     <div className="mt-4">
+      {notification && (
+        <div 
+          className="alert alert-info alert-dismissible fade show" 
+          role="alert"
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 1050,
+            minWidth: '300px',
+            maxWidth: '500px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          {notification}
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setNotification("")}
+            aria-label="Close"
+          ></button>
+        </div>
+      )}
+      
       <h5 className="fw-bold mb-3">Client Exercises ({exercises.length})</h5>
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         {exercises.map((exercise) => (
@@ -119,6 +141,7 @@ function ClientExercises({ clientId }) {
                   </div>
                 )}
               </div>
+              {/* Delete Button */}
               <div className="card-footer bg-transparent border-top-0 d-flex justify-content-end">
                 <button className="btn btn-sm btn-danger" onClick={() => handleDelete(exercise.id)}>Delete</button>
               </div>
