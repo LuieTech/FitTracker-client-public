@@ -64,3 +64,18 @@ export function getClientById(clientId) {
     });
 
 }
+
+//Delete
+export function deleteClientById(clientId) {
+  return service
+    .delete("/clients/" + clientId)
+    .then((res) => res.data)
+    .catch((error) => {
+      if (error.response?.status === 404) {
+        return Promise.reject("Client not found");
+      } else {
+        console.log(error.response?.data?.message || error.message);
+        throw error;
+      }
+    });
+}

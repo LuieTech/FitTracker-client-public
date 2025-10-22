@@ -34,13 +34,21 @@ useEffect(() => {
 
   const clientsList = clients?.map((cl) => (
     <Link to={`/home/client-details/${cl.id}`} key={cl.id} className="text-decoration-none">
-      <div className="card p-3 ">
-        <h5 className="card-title"> {cl.name} </h5>
-        <div className="d-flex flex-column gap-2 pt-2">
-          <p>
+      <div className="card p-3">
+        <div className="d-flex align-items-center gap-3 mb-3">
+          <img 
+            src={`https://i.pravatar.cc/150?img=${cl.id}`}
+            alt={cl.name}
+            className="rounded-circle"
+            style={{ width: '60px', height: '60px', objectFit: 'cover' }}
+          />
+          <h5 className="card-title mb-0"> {cl.name} </h5>
+        </div>
+        <div className="d-flex flex-column gap-2">
+          <p className="mb-1">
             <i className="fa-solid fa-phone me-2"></i> {cl.phoneNumber}
           </p>
-          <p>
+          <p className="mb-0">
             <i className="fa-solid fa-envelope me-2"></i> {cl.email}
           </p>
         </div>
