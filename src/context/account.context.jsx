@@ -11,6 +11,8 @@ function AccountProviderWrapper({ children }) {
   const [clientsCount, setClientsCount] = useState(0)
 
 useEffect(() => {
+  let isMounted = true;
+
   const autoLogin = async () => {
     const token = localStorage.getItem("authToken");
 
@@ -37,18 +39,27 @@ useEffect(() => {
         }
       }
 
-      setTrainer(trainerData);
-      setTrainerId(trainerData.id);
+      // Only update state if component is still mounted
+      if (isMounted && trainerData) {
+        setTrainer(trainerData);
+        setTrainerId(trainerData.id);
 
-      const clientList = await getClients(trainerData.id);
-      setClients(clientList);
-      setClientsCount(clientList.length)
+        const clientList = await getClients(trainerData.id);
+        if (isMounted) {
+          setClients(clientList);
+          setClientsCount(clientList.length);
+        }
+      }
     } catch (error) {
       console.log("Auto-login failed", error);
     }
   };
 
   autoLogin();
+
+  return () => {
+    isMounted = false;
+  };
 }, []);
 
   const refreshClients = async () => {

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { getExercisesByClientId } from "../../services/exercise.service";
+import { deleteExercise, getExercisesByClientId } from "../../services/exercise.service";
 
 function ClientExercises({ clientId }) {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notification, setNotification] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationTimeout, setNotificationTimeout] = useState(null);
+
 
   useEffect(() => {
     if (clientId) {
@@ -52,6 +56,23 @@ function ClientExercises({ clientId }) {
     );
   }
 
+  const handleDelete = async (exerciseId) => {
+    try {
+      await deleteExercise(exerciseId);
+      setExercises(exercises.filter((exercise) => exercise.id !== exerciseId));
+      setNotification("Exercise deleted successfully");
+      setTimeout(() => {
+        setNotification("");
+      }, 3000);
+      // fetchClientExercises();
+    } catch (err) {
+      setNotification("Failed to delete exercise: " + err.message);
+      setTimeout(() => {
+        setNotification("");
+      }, 3000);
+    }
+  };
+
   return (
     <div className="mt-4">
       <h5 className="fw-bold mb-3">Client Exercises ({exercises.length})</h5>
@@ -88,27 +109,18 @@ function ClientExercises({ clientId }) {
                 {exercise.instructions && exercise.instructions.length > 0 && (
                   <div className="mt-2">
                     <small className="text-muted fw-bold">Instructions:</small>
-                    <ol className="mt-1" style={{ fontSize: "0.85rem", paddingLeft: "1.2rem" }}>
+                    <ol className="mt-1 overflow-auto" style={{ fontSize: "0.85rem", paddingLeft: "1.2rem", flex: "1 1 auto", maxHeight: "200px" }}>
                       {exercise.instructions.slice(0, 3).map((instruction, idx) => (
                         <li key={idx} className="text-secondary">
                           {instruction}
                         </li>
                       ))}
-                      {exercise.instructions.length > 3 && (
-                        <li className="text-muted fst-italic">
-                          ...{exercise.instructions.length - 3} more steps
-                        </li>
-                      )}
                     </ol>
                   </div>
                 )}
               </div>
-
-              {/* Card Footer */}
-              <div className="card-footer bg-transparent border-top-0">
-                <small className="text-muted">
-                  Added: {exercise.createdAt ? new Date(exercise.createdAt).toLocaleDateString() : "N/A"}
-                </small>
+              <div className="card-footer bg-transparent border-top-0 d-flex justify-content-end">
+                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(exercise.id)}>Delete</button>
               </div>
             </div>
           </div>

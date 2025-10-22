@@ -56,7 +56,17 @@ export function getExercisesByClientId(clientId) {
     .get(`/clients/exercises/${clientId}`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error while getting exercise in exercise service: ", error);
+      console.error("Error fetching exercises by client: ", error);
+      throw error;
+    });
+}
+
+export function deleteExercise(exerciseId) {
+  return service
+    .delete(`/exercises/${exerciseId}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error deleting exercise: ", error);
       throw error;
     });
 }

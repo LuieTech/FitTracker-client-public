@@ -51,7 +51,7 @@ function Workouts() {
         
         const response = await addExercise(modifiedExercise);
         console.log("Exercise saved successfully:", response);
-        setNotification(`Exercise "${exercise.name}" added successfully for ${selectedClient.name}!`);
+        setNotification(`Exercise added successfully for ${selectedClient.name}!`);
       } catch (error) {
         console.error("Error from saveExerciseToBackend function: ", error);
         console.error("Error response:", error.response);
@@ -85,7 +85,19 @@ function Workouts() {
   return (
     <div className="container">
       {notification && (
-        <div className="alert alert-info alert-dismissible fade show" role="alert">
+        <div 
+          className="alert alert-info alert-dismissible fade show" 
+          role="alert"
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 1050,
+            minWidth: '300px',
+            maxWidth: '500px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+          }}
+        >
           {notification}
           <button
             type="button"

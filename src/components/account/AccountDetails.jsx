@@ -4,16 +4,18 @@ import { getClients } from "../../services/client.service";
 
 export default function AccountDetails() {
 
-  const {trainer, clientsCount, setClientsCount, refreshClients} = useAccountContext()
+  const {trainer, clientsCount, setClientsCount} = useAccountContext()
   const [status, setStatus] = useState(true);
 
 
   
   useEffect(() => {
-
-    refreshClients()
-
-  }, [])
+    // Only fetch clients if trainer.id is available
+    if (trainer?.id) {
+      getClients(trainer.id).then(res => setClientsCount(res.length))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trainer?.id])
 
 
   console.log("This is clients lenght from AcccountDetails: ", clientsCount)
