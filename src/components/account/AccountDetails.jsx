@@ -46,7 +46,7 @@ export default function AccountDetails() {
       <div className="row align-items-center mb-4">
         <div className="col-md-3 text-center">
           <img
-            src={trainer.avatar || "https://i.pravatar.cc/130"}
+            src={trainer.avatar || "https://i.pravatar.cc/130?img=3"}
             alt="Trainer avatar"
             className="img-thumbnail"
             style={{ width: "100px", height: "100px", objectFit: "cover" }}
@@ -83,7 +83,7 @@ export default function AccountDetails() {
         </div>
         <div className="col-md-6 d-flex align-items-center">
           <label className="form-label text-muted me-3">Status</label>
-          <div className="form-check form-switch">
+          <div className="form-check form-switch d-flex align-items-center gap-2">
             <input
               className="form-check-input"
               type="checkbox"

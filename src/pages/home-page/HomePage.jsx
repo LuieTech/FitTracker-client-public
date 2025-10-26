@@ -6,10 +6,12 @@ import Exercises from "../../components/workouts/Workouts";
 import AccountDetails from "../../components/account/AccountDetails";
 import Clients from "../../components/clients/Clients";
 import ClientDetails from "../../components/clients/ClientDetails";
+import { useAccountContext } from "../../context/account.context";
 
 function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { trainer } = useAccountContext();
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -82,7 +84,7 @@ function HomePage() {
       {/* Desktop Sidebar */}
       <div className="sidebar-section">
         <section>
-          <header className="d-flex align-items-center justify-content-center gap-2">
+          <header className="d-flex align-items-center justify-content-center gap-2 mb-4">
             <img src="/images/favicon.ico" alt="Logo-image" style={{width: "40px"}}/>
             <span>
               <h4>FitTracker</h4>
@@ -95,7 +97,10 @@ function HomePage() {
         <section>
           <div className="d-flex align-items-center justify-content-center gap-2">
             <img src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg" alt="avatar" style={{width:"25%"}}/>
-            <span> John </span>
+            <div>
+              <h5 className="mb-0 fw-bold">Hi<span className="text-primary"><i> {trainer?.name}</i></span> </h5>
+            </div>
+            
           </div>
         </section>
       </div>
