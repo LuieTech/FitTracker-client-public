@@ -142,7 +142,7 @@ function ClientExercises({ clientId }) {
                 )}
               </div>
               {/* Delete Button */}
-              <div className="card-footer bg-transparent border-top-0 d-flex justify-content-end">
+              <div className="card-footer bg-transparent border-top-0 d-flex justify-content-center">
                 <button className="btn btn-sm btn-danger" onClick={() => handleDelete(exercise.id)}>Delete</button>
               </div>
             </div>
