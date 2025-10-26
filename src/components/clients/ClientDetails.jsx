@@ -58,7 +58,7 @@ function ClientDetails() {
 
   return (
     <div
-      className="container bg-white rounded shadow-sm p-4"
+      className="container bg-white rounded shadow-sm p-3 p-md-4 mx-auto"
       style={{ maxWidth: "850px" }}
     >
       {notification && (
@@ -67,11 +67,12 @@ function ClientDetails() {
           role="alert"
           style={{
             position: "fixed",
-            top: "20px",
-            right: "20px",
+            top: "70px",
+            right: "10px",
+            left: "10px",
             zIndex: 1050,
-            minWidth: "300px",
             maxWidth: "500px",
+            margin: "0 auto",
             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           }}
         >
@@ -84,83 +85,89 @@ function ClientDetails() {
           ></button>
         </div>
       )}
-      <div className="d-flex justify-content-between align-items-center mb-4 ">
-        <h4 className="fw-bold mb-0">Client</h4>
+      <div className="d-flex justify-content-between align-items-center mb-3 mb-md-4 gap-2">
+        <h4 className="fw-bold mb-0 fs-5 fs-md-4">Client Details</h4>
         {/* Delete Client Button */}
         <button
-          className="btn btn-light btn-danger btn-sm "
+          className="btn btn-danger btn-sm d-flex align-items-center gap-1"
           onClick={() => setShowDeleteConfirm(true)}
         >
-          <i className="bi bi-trash me-1"></i> Delete
+          <i className="bi bi-trash"></i> 
+          <span className="d-none d-sm-inline">Delete</span>
         </button>
       </div>
 
-      <div className="row">
-        <div className="col-md-6 mb-3">
-          <label className="form-label text-muted"> Name</label>
-          <h5 className="text-secondary">{client?.name}</h5>
-        </div>
-        {/* <div className="col-md-6 mb-3">
-          <label className="form-label text-muted">Last Name</label>
-          <h5 className="text-secondary">{client?.username}</h5>
-        </div> */}
-      </div>
-
-      <div className="row align-items-center mb-4">
-        <div className="col-md-3 text-center">
+      {/* Avatar and Basic Info Section */}
+      <div className="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-3 mb-4 pb-3 border-bottom">
+        <div className="flex-shrink-0">
           <img
             src={`https://i.pravatar.cc/150?img=${clientId}`}
             alt="client avatar"
-            className="img-thumbnail"
+            className="rounded-circle shadow-sm"
             style={{ width: "100px", height: "100px", objectFit: "cover" }}
           />
         </div>
-        <div className="col-md-6">
-          <label className="form-label text-muted">Mobile phone</label>
-          <h5 className="text-secondary">{client?.phoneNumber}</h5>
-        </div>
-      </div>
-
-      <div className="row mb-3">
-        <div className="col-md-9">
-          <label className="form-label text-muted">Email</label>
-          <h5 className="text-secondary">{client?.email}</h5>
+        <div className="flex-grow-1 text-center text-md-start w-100">
+          <div className="mb-3">
+            <label className="form-label text-muted small d-block mb-1">Name</label>
+            <h5 className="text-secondary fs-5 mb-0">{client?.name}</h5>
+          </div>
+          <div className="row g-2">
+            <div className="col-12">
+              <label className="form-label text-muted small d-block mb-1">
+                <i className="bi bi-telephone me-1"></i>Mobile phone
+              </label>
+              <p className="text-secondary mb-0">{client?.phoneNumber}</p>
+            </div>
+            <div className="col-12">
+              <label className="form-label text-muted small d-block mb-1">
+                <i className="bi bi-envelope me-1"></i>Email
+              </label>
+              <p className="text-secondary mb-0 text-break">{client?.email}</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="mb-3">
-        <label className="form-label text-muted">Notes</label>
-        <p className="text-secondary">
+        <label className="form-label text-muted small d-block mb-2">
+          <i className="bi bi-chat-left-text me-1"></i>Notes
+        </label>
+        <p className="text-secondary small mb-0 p-2 bg-light rounded">
           {client?.comment || "No notes available."}
         </p>
       </div>
 
-      <div className="row mb-3">
-        <div className="col d-flex justify-content-between align-items-center">
-          {/* Back Button */}
-          <div>
-            <a href="/home/clients" className="text-decoration-none">
-              <i className="bi bi-arrow-left-circle"></i> Back
-            </a>
-          </div>
+      {/* Actions Bar */}
+      <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 py-3 border-top">
+        {/* Back Button */}
+        <a 
+          href="/home/clients" 
+          className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1"
+        >
+          <i className="bi bi-arrow-left-circle"></i>
+          <span>Back to Clients</span>
+        </a>
 
-          {/* Status Switch and Delete Button */}
-          <div className="d-flex align-items-center gap-3">
-            <div className="d-flex align-items-center">
-              <label className="form-label text-muted me-3 mb-0">Status</label>
-              <div className="form-check form-switch mb-0">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="statusSwitch"
-                  checked={status}
-                  onChange={() => setStatus((prev) => !prev)}
-                />
-                <label className="form-check-label" htmlFor="statusSwitch">
-                  {status ? "Active" : "Inactive"}
-                </label>
-              </div>
-            </div>
+        {/* Status Switch */}
+        <div className="d-flex align-items-center gap-2">
+          <span className="text-muted small">Status:</span>
+          <div className="form-check form-switch mb-0">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="statusSwitch"
+              checked={status}
+              onChange={() => setStatus((prev) => !prev)}
+              style={{ cursor: 'pointer' }}
+            />
+            <label 
+              className="form-check-label small fw-bold" 
+              htmlFor="statusSwitch"
+              style={{ cursor: 'pointer' }}
+            >
+              {status ? "Active" : "Inactive"}
+            </label>
           </div>
         </div>
       </div>
@@ -212,21 +219,22 @@ function ClientDetails() {
       )}
 
       {/* Show Exercises Button */}
-      <div className="mt-4 mb-3 d-flex justify-content-center">
+      <div className="mt-4 mb-3">
         <button
           type="button"
-          className="btn btn-outline-primary"
+          className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
           onClick={() => setShowExercises((prev) => !prev)}
+          style={{ padding: '12px' }}
         >
           {showExercises ? (
             <>
-              <i className="bi bi-chevron-up me-2"></i>
-              Hide Exercises
+              <i className="bi bi-chevron-up"></i>
+              <span>Hide Exercises</span>
             </>
           ) : (
             <>
-              <i className="bi bi-chevron-down me-2"></i>
-              Show Exercises
+              <i className="bi bi-chevron-down"></i>
+              <span>Show Exercises</span>
             </>
           )}
         </button>

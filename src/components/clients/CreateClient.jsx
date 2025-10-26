@@ -35,45 +35,53 @@ function CreateClient({ onCreate }) {
 
   return (
     <form
-      className="container py-3"
+      className="container py-3 px-2 px-md-3"
       onSubmit={handleSubmit}
       style={{ maxWidth: "800px" }}
     >
-      <div className="row g-3">
-        <div className="col-md-6">
+      <h5 className="fw-bold mb-3">
+        <i className="bi bi-person-plus-fill me-2 text-success"></i>
+        Add New Client
+      </h5>
+      <div className="row g-2 g-md-3">
+        <div className="col-12 col-md-6">
+          <label className="form-label small text-muted mb-1">Name *</label>
           <input
             className="form-control"
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            placeholder="Name"
+            placeholder="Enter client name"
             required
           />
         </div>
-        <div className="col-md-6">
+        <div className="col-12 col-md-6">
+          <label className="form-label small text-muted mb-1">Address *</label>
           <input
             className="form-control"
             name="address"
             value={formData.address}
             onChange={handleInputChange}
-            placeholder="Address"
+            placeholder="Enter address"
             required
           />
         </div>
 
-        <div className="col-md-6">
+        <div className="col-12 col-md-6">
+          <label className="form-label small text-muted mb-1">Phone Number *</label>
           <input
             className="form-control"
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleInputChange}
-            placeholder="(e.g., 123-456-7890)"
-            type="text"
+            placeholder="123-456-7890"
+            type="tel"
             required
           />
         </div>
 
-        <div className="col-md-6">
+        <div className="col-12 col-md-6">
+          <label className="form-label small text-muted mb-1">Email *</label>
           <input
             className="form-control"
             name="email"
@@ -86,19 +94,24 @@ function CreateClient({ onCreate }) {
         </div>
 
         <div className="col-12">
+          <label className="form-label small text-muted mb-1">Notes (Optional)</label>
           <textarea
             className="form-control"
             name="comment"
             value={formData.comment}
             onChange={handleInputChange}
-            placeholder="Comment..."
+            placeholder="Add any additional notes..."
             rows="3"
           />
         </div>
 
-        <div className="col-12 text-end">
-          <button className="btn btn-success" type="submit">
-            Create Client
+        <div className="col-12 d-flex justify-content-end gap-2 mt-2">
+          <button 
+            className="btn btn-success d-flex align-items-center gap-2" 
+            type="submit"
+          >
+            <i className="bi bi-check-circle"></i>
+            <span>Create Client</span>
           </button>
         </div>
       </div>
