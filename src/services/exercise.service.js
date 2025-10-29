@@ -46,7 +46,6 @@ export function addExercise(exercise) {
     .post("/exercises", exercise)
     .then((res) => res.data)
     .catch((error) => {
-      console.error("Error while adding exercise in service file: ", error);
       throw error;
     });
 }
@@ -56,7 +55,6 @@ export function getExercisesByClientId(clientId) {
     .get(`/clients/exercises/${clientId}`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error fetching exercises by client: ", error);
       throw error;
     });
 }
@@ -66,7 +64,6 @@ export function deleteExercise(exerciseId) {
     .delete(`/exercises/${exerciseId}`)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error deleting exercise: ", error);
       throw error;
     });
 }

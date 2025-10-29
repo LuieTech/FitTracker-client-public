@@ -51,7 +51,7 @@ useEffect(() => {
         }
       }
     } catch (error) {
-      console.error("Auto-login failed", error);
+      // Auto-login failed - handle silently or redirect to login page
     }
   };
 

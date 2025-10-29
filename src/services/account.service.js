@@ -46,7 +46,6 @@ export function loginTrainer(body) {
     })
     .then((res) => res.data)
     .catch((error) => {
-      console.error("Error during login: ", error);
       throw error;
     });
 }
@@ -56,7 +55,6 @@ export function refreshTrainerData() {
     .get("/auth/me")
     .then((res) => res.data)
     .catch((error) => {
-      console.error("Error during refreshing user: ", error);
       throw error;
     });
 }

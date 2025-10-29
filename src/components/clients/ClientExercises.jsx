@@ -10,7 +10,7 @@ function ClientExercises({ clientId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState("");
-  const [images, setImages] = useState(null);
+  const [images, setImages] = useState({});
 
   const fetchClientExercises = useCallback(async () => {
     try {
@@ -19,7 +19,6 @@ function ClientExercises({ clientId }) {
       setExercises(data);
       setError(null);
     } catch (err) {
-      console.error("Error fetching client exercises:", err);
       setError("Failed to load exercises");
     } finally {
       setLoading(false);
@@ -49,7 +48,7 @@ function ClientExercises({ clientId }) {
           const url = await getRapidApiImages(ex.gifUrl); // backend stores exerciseId in gifUrl
           newImages[ex.id] = url;
         } catch (err) {
-          console.error(`Error loading image for ${ex.id}:`, err);
+          // Handle error silently - will use fallback image
         }
       }
       setImages(newImages);
@@ -90,7 +89,6 @@ function ClientExercises({ clientId }) {
       setExercises(exercises.filter((exercise) => exercise.id !== exerciseId));
       setNotification("Exercise deleted successfully!");
     } catch (err) {
-      console.error("Error deleting exercise:", err);
       setNotification(
         `Failed to delete exercise: ${
           err.response?.data?.message || err.message

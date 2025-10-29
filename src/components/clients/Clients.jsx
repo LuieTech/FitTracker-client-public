@@ -27,9 +27,9 @@ useEffect(() => {
         obtainClients(trainer.id)
         getClients(trainer.id)
       })
-      .catch((err) =>
-        console.error("Error while fetching clients at CL Component: ", err)
-      );
+      .catch((err) => {
+        // Handle error silently or show user notification if needed
+      });
   };
 
   const clientsList = clients?.map((cl) => (

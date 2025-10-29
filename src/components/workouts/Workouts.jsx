@@ -48,9 +48,6 @@ function Workouts() {
         const response = await addExercise(modifiedExercise);
         setNotification(`Exercise added successfully for ${selectedClient.name}!`);
       } catch (error) {
-        console.error("Error from saveExerciseToBackend function: ", error);
-        console.error("Error response:", error.response);
-        
         if (error.response?.status === 403) {
           setNotification("Authentication failed. Please refresh the page and try again.");
         } else {
@@ -63,12 +60,13 @@ function Workouts() {
   const workoutList = list?.map((exercise) => (
     <div
       key={exercise?.id}
-      className="d-flex flex-column justify-content-between align-items-center"
+      style={{ width: "95%" }}
     >
       <WorkoutDetails list={exercise} />
       <button 
         type="button"
-        className="btn btn-primary w-100 mt-2 mb-2"
+        style={{ width: "95%" }}
+        className="btn btn-primary mt-2 mb-2 "
         onClick={() => saveExerciseToBackend(exercise)}
         disabled={!selectedClient}
       >
@@ -103,7 +101,7 @@ function Workouts() {
         </div>
       )}
       
-      <div className="mb-3 d-flex justify-content-start align-items-center gap-3">
+      <div className="mb-4 d-flex justify-content-start align-items-center gap-3">
         <SelectClient onClientSelect={handleClientSelect} />
         {selectedClient && (
           <span className="badge bg-success">
@@ -112,7 +110,7 @@ function Workouts() {
         )}
       </div>
       
-      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center align-items-center">
         {list && workoutList}
       </div>
     </div>

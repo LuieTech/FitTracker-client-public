@@ -15,7 +15,9 @@ function SelectClient({ onClientSelect }) {
         setClientsList(response);
       }
     } catch (error) {
+      // Handle error silently
       console.error("Error while getting clientsList at SelectClient", error);
+      return [];
     }
   };
 

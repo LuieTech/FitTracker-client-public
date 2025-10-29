@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getClientById, deleteClientById } from "../../services/client.service";
+import { getClientById, deleteClientById, updateComment, updateEmail } from "../../services/client.service";
 import ClientExercises from "./ClientExercises";
 import { getAvatarUrl } from "../../utils/avatar";
 
@@ -12,14 +12,61 @@ function ClientDetails() {
   const [showExercises, setShowExercises] = useState(false);
   const [notification, setNotification] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [editModeComment, setEditModeComment] = useState(false);
+  const [editModeEmail, setEditModeEmail] = useState(false);
+  const [editedComment, setEditedComment] = useState("");
+  const [editedEmail, setEditedEmail] = useState("");
+
+  const handleSaveComment = async () => {
+    try {
+      await updateComment(clientId, { comment: editedComment });
+      // Refresh client data from server to show updated values
+      await getClient();
+      setEditModeComment(false);
+      setNotification("Comment updated successfully!");
+    } catch (err) {
+      setNotification(
+        `Failed to update comment: ${
+          err.response?.data?.message || err.message || err
+        }`
+      );
+    }
+  };
+
+  const handleCancelComment = () => {
+    setEditedComment(client?.comment || "");
+    setEditModeComment(false);
+  };
+
+  const handleSaveEmail = async () => {
+    try {
+      await updateEmail(clientId, { email: editedEmail });
+      // Refresh client data from server to show updated values
+      await getClient();
+      setEditModeEmail(false);
+      setNotification("Email updated successfully!");
+    } catch (err) {
+      setNotification(
+        `Failed to update email: ${
+          err.response?.data?.message || err.message || err
+        }`
+      );
+    }
+  };
+
+  const handleCancelEmail = () => {
+    setEditedEmail(client?.email || "");
+    setEditModeEmail(false);
+  };
+  
 
   const getClient = async () => {
     try {
       const client = await getClientById(clientId);
       const response = await client;
       response && setClient(response);
-    } catch (error) {
-      console.error("Error fectching client from CLientDetails: ", error);
+    } catch {
+      setNotification("Error loading client details");
     }
   };
 
@@ -27,6 +74,13 @@ function ClientDetails() {
     getClient();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientId]);
+
+  useEffect(() => {
+    if (client) {
+      setEditedComment(client.comment || "");
+      setEditedEmail(client.email || "");
+    }
+  }, [client]);
 
   useEffect(() => {
     if (notification) {
@@ -39,12 +93,10 @@ function ClientDetails() {
     try {
       await deleteClientById(clientId);
       setNotification("Client deleted successfully!");
-      // Navigate back to clients list after a short delay
       setTimeout(() => {
         navigate("/home/clients");
       }, 1500);
     } catch (err) {
-      console.error("Error deleting client:", err);
       setNotification(
         `Failed to delete client: ${
           err.response?.data?.message || err.message || err
@@ -121,19 +173,145 @@ function ClientDetails() {
               <label className="form-label text-muted small d-block mb-1">
                 <i className="bi bi-envelope me-1"></i>Email
               </label>
-              <p className="text-secondary mb-0 text-break">{client?.email}</p>
+              {editModeEmail ? (
+                <div>
+                  <input
+                    type="email"
+                    className="form-control form-control-sm mb-2"
+                    value={editedEmail}
+                    onChange={(e) => setEditedEmail(e.target.value)}
+                    placeholder="Enter email address..."
+                  />
+                  <div className="d-flex gap-2">
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-md-sm btn-sm"
+                      onClick={handleSaveEmail}
+                      style={{ 
+                        padding: '2px 8px',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      <i className="bi bi-check-lg me-1"></i>Save
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary btn-md-sm btn-sm"
+                      onClick={handleCancelEmail}
+                      style={{ 
+                        padding: '2px 8px',
+                        fontSize: '0.875rem'
+                      }}
+                    >
+                      <i className="bi bi-x-lg me-1"></i>Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p 
+                  className="text-secondary mb-0 text-break"
+                  onClick={() => setEditModeEmail(true)}
+                  style={{ 
+                    cursor: 'pointer',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f8f9fa';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  {client?.email || "Click to add email..."}
+                </p>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mb-3">
+      {/* Comment/Notes Section */}
+      <div className="mb-3 pb-3 border-bottom">
         <label className="form-label text-muted small d-block mb-2">
-          <i className="bi bi-chat-left-text me-1"></i>Notes
+          <i className="bi bi-chat-left-text me-1"></i>Notes / Comments
         </label>
-        <p className="text-secondary small mb-0 p-2 bg-light rounded">
-          {client?.comment || "No notes available."}
-        </p>
+        {editModeComment ? (
+          <div>
+            <textarea
+              className="form-control mb-2"
+              value={editedComment}
+              onChange={(e) => setEditedComment(e.target.value)}
+              placeholder="Add notes or comments about this client..."
+              rows="3"
+              maxLength="200"
+              style={{ 
+                resize: 'vertical',
+                fontSize: '0.9rem',
+                minHeight: '60px',
+                maxHeight: '150px'
+              }}
+            />
+            <div className="d-flex gap-2">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={handleSaveComment}
+                style={{ 
+                  padding: '4px 12px',
+                  fontSize: '0.875rem'
+                }}
+              >
+                <i className="bi bi-check-lg me-1"></i>Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-sm"
+                onClick={handleCancelComment}
+                style={{ 
+                  padding: '4px 12px',
+                  fontSize: '0.875rem'
+                }}
+              >
+                <i className="bi bi-x-lg me-1"></i>Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="p-2 bg-light rounded cursor-pointer"
+            onClick={() => setEditModeComment(true)}
+            style={{ 
+              cursor: 'pointer',
+              minHeight: client?.comment ? 'auto' : '60px',
+              border: '1px dashed #dee2e6',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#0d6efd';
+              e.currentTarget.style.backgroundColor = '#f8f9fa';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#dee2e6';
+              e.currentTarget.style.backgroundColor = '#f8f9fa';
+            }}
+          >
+            {client?.comment ? (
+              <p className="mb-0 text-secondary" style={{ 
+                whiteSpace: 'pre-wrap',
+                fontSize: '0.9rem',
+                wordBreak: 'break-word'
+              }}>
+                {client.comment}
+              </p>
+            ) : (
+              <p className="mb-0 text-muted fst-italic" style={{ fontSize: '0.9rem' }}>
+                Click to add notes or comments...
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Actions Bar */}

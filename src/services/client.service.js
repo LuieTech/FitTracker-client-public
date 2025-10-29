@@ -38,7 +38,6 @@ export function createClient(body) {
     .post("/clients", body)
     .then((res) => res.data)
     .catch((error) => {
-      console.error("Error while creating client in service: ", error);
       throw error;
     });
 }
@@ -48,21 +47,17 @@ export function getClients(trainerId) {
     .get(`/trainers/clients/` + trainerId)
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error fetching clients:", error.response.data.message);
       return [];
     });
 }
 
 export function getClientById(clientId) {
-
   return service
     .get("/clients/" + clientId)
     .then(response => response.data)
     .catch((error) => {
-      console.error("Error fetching clientById: ", error.response.data.message);
       return {};
     });
-
 }
 
 //Delete
@@ -74,8 +69,24 @@ export function deleteClientById(clientId) {
       if (error.response?.status === 404) {
         return Promise.reject("Client not found");
       } else {
-        console.error("Error deleting client:", error.response?.data?.message || error.message);
         throw error;
       }
+    });
+}
+
+//Update
+export function updateComment(id, comment) {
+  return service.patch(`/clients/${id}/comment`, comment)
+    .then((res) => res.data)
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export function updateEmail(id, emailData) {
+  return service.patch(`/clients/email/${id}`, emailData)
+    .then((res) => res.data)
+    .catch((error) => {
+      throw error;
     });
 }
