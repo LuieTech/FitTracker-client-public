@@ -9,6 +9,7 @@ function AccountProviderWrapper({ children }) {
   const [trainerId, setTrainerId] = useState(null);
   const [clients, setClients] = useState(null);
   const [clientsCount, setClientsCount] = useState(0)
+  
 
 useEffect(() => {
   let isMounted = true;

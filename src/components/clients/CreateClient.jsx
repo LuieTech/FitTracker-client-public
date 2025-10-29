@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useAccountContext } from "../../context/account.context";
+import { getClients } from "../../services/client.service";
 
 function CreateClient({ onCreate }) {
-  const { trainerId } = useAccountContext();
+  const { trainerId, setClients } = useAccountContext();
 
   const initialFormData = {
     trainer: "",
@@ -27,10 +28,11 @@ function CreateClient({ onCreate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onCreate(formData);
+    getClients(trainerId).then(res => setClients(res))
     setFormData(initialFormData);
   };
 
-  console.log("this is trainerId from Form: ", trainerId);
+  // console.log("this is trainerId from Form: ", trainerId);
   
 
   return (

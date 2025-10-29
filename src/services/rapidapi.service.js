@@ -15,5 +15,25 @@ export function getRapidApi(){
       return res.data
       
     })
-    .catch(err => console.error("Error while fetching in api.service file", err) )
+    .catch(err => console.error("Error while fetching in api.service file", err.response?.data?.message || err.message) )
+}
+
+export function getRapidApiImages(exerciseId) {
+  // console.log("This is the exercise id: ", exerciseId);
+  // return  
+  //const paddedId = exerciseId.toString().padStart(4, "0");
+  return apiService.get(`/image?resolution=1080&exerciseId=${exerciseId}`, {
+    responseType: "blob", // important: tells axios to return raw binary data
+  })
+  .then(res => {
+    console.log("This is the image response: ", res.data);
+    const imageUrl = URL.createObjectURL(res.data); // create a local object URL for <img src>
+    return imageUrl;
+  })
+  .catch(err => {
+    console.error(
+      "Error while retrieving images at rapidAPI service file",
+      err.response?.data?.message || err.message
+    );
+  });
 }

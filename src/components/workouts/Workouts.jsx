@@ -39,12 +39,13 @@ function Workouts() {
     if (exercise) {
       try {
         const modifiedExercise = {
-          gifUrl: exercise.gifUrl,
+          gifUrl: exercise.id.toString(), // 👈 storing the image ID, not an actual URL
           name: exercise.name,
-          instructions: exercise.instructions,
+          instructions: exercise.instructions || [],
           bodyPart: exercise.bodyPart,
           client: { id: selectedClient.id.toString() },
         };
+        
         
         console.log("Sending exercise to backend:", modifiedExercise);
         console.log("Auth token present:", !!localStorage.getItem("authToken"));

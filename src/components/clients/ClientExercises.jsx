@@ -1,17 +1,24 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { deleteExercise, getExercisesByClientId } from "../../services/exercise.service";
+import {
+  deleteExercise,
+  getExercisesByClientId,
+} from "../../services/exercise.service";
+import { getRapidApiImages } from "../../services/rapidapi.service";
 
 function ClientExercises({ clientId }) {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState("");
+  const [images, setImages] = useState(null);
 
   const fetchClientExercises = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getExercisesByClientId(clientId);
       setExercises(data);
+      console.log("This is the Client exercises: ", data);
+      
       setError(null);
     } catch (err) {
       console.error("Error fetching client exercises:", err);
@@ -33,6 +40,25 @@ function ClientExercises({ clientId }) {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
+
+  useEffect(() => {
+    // fetch images for each exercise once loaded
+    const loadImages = async () => {
+      const newImages = {};
+      for (const ex of exercises) {
+        try {
+          const url = await getRapidApiImages(ex.gifUrl); // backend stores exerciseId in gifUrl
+          newImages[ex.id] = url;
+        } catch (err) {
+          console.error(`Error loading image for ${ex.id}:`, err);
+        }
+      }
+      setImages(newImages);
+    };
+    if (exercises.length > 0) loadImages();
+  }, [exercises]);
+
 
   if (loading) {
     return (
@@ -67,25 +93,29 @@ function ClientExercises({ clientId }) {
       setNotification("Exercise deleted successfully!");
     } catch (err) {
       console.error("Error deleting exercise:", err);
-      setNotification(`Failed to delete exercise: ${err.response?.data?.message || err.message}`);
+      setNotification(
+        `Failed to delete exercise: ${
+          err.response?.data?.message || err.message
+        }`
+      );
     }
   };
 
   return (
     <div className="mt-3 mt-md-4">
       {notification && (
-        <div 
-          className="alert alert-info alert-dismissible fade show" 
+        <div
+          className="alert alert-info alert-dismissible fade show"
           role="alert"
           style={{
-            position: 'fixed',
-            top: '70px',
-            right: '10px',
-            left: '10px',
+            position: "fixed",
+            top: "70px",
+            right: "10px",
+            left: "10px",
             zIndex: 1050,
-            maxWidth: '500px',
-            margin: '0 auto',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            maxWidth: "500px",
+            margin: "0 auto",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           }}
         >
           {notification}
@@ -97,22 +127,25 @@ function ClientExercises({ clientId }) {
           ></button>
         </div>
       )}
-      
+
       <div className="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
         <h5 className="fw-bold mb-0 fs-6 fs-md-5">
           <i className="bi bi-clipboard-check me-2 text-primary"></i>
           Exercises
         </h5>
-        <span className="badge bg-primary rounded-pill">{exercises.length}</span>
+        <span className="badge bg-primary rounded-pill">
+          {exercises.length}
+        </span>
       </div>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 g-md-3">
         {exercises.map((exercise) => (
-          <div key={exercise.id} className="col">
+          <div key={exercise.gifUrl} className="col">
             <div className="card h-100 shadow-sm border">
               {/* Exercise Image */}
+            
               <div className="d-flex justify-content-center p-3 bg-light">
                 <img
-                  src={exercise.gifUrl}
+                  src={images?.[exercise.id] || "/fallback.png"}
                   className="card-img-top"
                   alt={exercise.name}
                   style={{
@@ -125,11 +158,17 @@ function ClientExercises({ clientId }) {
 
               {/* Exercise Details */}
               <div className="card-body p-3">
-                <h6 className="card-title fw-bold mb-2" style={{ fontSize: '1rem', lineHeight: '1.3' }}>
+                <h6
+                  className="card-title fw-bold mb-2"
+                  style={{ fontSize: "1rem", lineHeight: "1.3" }}
+                >
                   {exercise.name}
                 </h6>
                 <div className="mb-2">
-                  <span className="badge bg-primary text-uppercase" style={{ fontSize: "0.75rem", padding: '0.4rem 0.6rem' }}>
+                  <span
+                    className="badge bg-primary text-uppercase"
+                    style={{ fontSize: "0.75rem", padding: "0.4rem 0.6rem" }}
+                  >
                     {exercise.bodyPart}
                   </span>
                 </div>
@@ -137,25 +176,38 @@ function ClientExercises({ clientId }) {
                 {/* Instructions */}
                 {exercise.instructions && exercise.instructions.length > 0 && (
                   <div className="mt-2">
-                    <small className="text-muted fw-bold d-block mb-1" style={{ fontSize: "0.8rem" }}>
+                    <small
+                      className="text-muted fw-bold d-block mb-1"
+                      style={{ fontSize: "0.8rem" }}
+                    >
                       Instructions:
                     </small>
-                    <ol className="overflow-auto" style={{ fontSize: "0.8rem", paddingLeft: "1.2rem", maxHeight: "120px", lineHeight: '1.4' }}>
-                      {exercise.instructions.slice(0, 3).map((instruction, idx) => (
-                        <li key={idx} className="text-secondary mb-1">
-                          {instruction}
-                        </li>
-                      ))}
+                    <ol
+                      className="overflow-auto"
+                      style={{
+                        fontSize: "0.8rem",
+                        paddingLeft: "1.2rem",
+                        maxHeight: "120px",
+                        lineHeight: "1.4",
+                      }}
+                    >
+                      {exercise.instructions
+                        .slice(0, 3)
+                        .map((instruction, idx) => (
+                          <li key={idx} className="text-secondary mb-1">
+                            {instruction}
+                          </li>
+                        ))}
                     </ol>
                   </div>
                 )}
               </div>
               {/* Delete Button */}
               <div className="card-footer bg-white border-top p-2">
-                <button 
-                  className="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2" 
+                <button
+                  className="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2"
                   onClick={() => handleDelete(exercise.id)}
-                  style={{ padding: '10px' }}
+                  style={{ padding: "10px" }}
                 >
                   <i className="bi bi-trash"></i>
                   <span>Delete</span>
@@ -170,4 +222,3 @@ function ClientExercises({ clientId }) {
 }
 
 export default ClientExercises;
-

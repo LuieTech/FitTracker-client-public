@@ -3,29 +3,34 @@ import { useAccountContext } from "../../context/account.context";
 import { getClients } from "../../services/client.service";
 
 export default function AccountDetails() {
-
-  const {trainer, clientsCount, setClientsCount} = useAccountContext()
+  const { trainer, clientsCount, setClientsCount } = useAccountContext();
   const [status, setStatus] = useState(true);
 
-
-  
   useEffect(() => {
     // Only fetch clients if trainer.id is available
     if (trainer?.id) {
-      getClients(trainer.id).then(res => setClientsCount(res.length))
+      getClients(trainer.id).then((res) => setClientsCount(res.length));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trainer?.id])
+  }, [trainer?.id]);
 
-
-  console.log("This is clients lenght from AcccountDetails: ", clientsCount)
+  console.log("This is clients lenght from AcccountDetails: ", clientsCount);
 
   return (
     <div
       className="container bg-white rounded shadow-sm p-4"
       style={{ maxWidth: "850px" }}
     >
-      <h4 className="fw-bold mb-4">Trainer</h4>
+      <div className="pb-4 col-12 text-center text-md-start">
+        <img
+          src={trainer.avatar || "https://i.pravatar.cc/130?img=3"}
+          alt="Trainer avatar"
+          className="img-thumbnail"
+          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+        />
+      </div>
+
+      <h4 className="fw-bold">Trainer</h4>
 
       <div className="mb-3">
         <label className="form-label text-muted">User nickname</label>
@@ -44,14 +49,6 @@ export default function AccountDetails() {
       </div>
 
       <div className="row align-items-center mb-4">
-        <div className="col-md-3 text-center">
-          <img
-            src={trainer.avatar || "https://i.pravatar.cc/130?img=3"}
-            alt="Trainer avatar"
-            className="img-thumbnail"
-            style={{ width: "100px", height: "100px", objectFit: "cover" }}
-          />
-        </div>
         <div className="col-md-9">
           <label className="form-label text-muted">Email</label>
           <h5 className="text-secondary">{trainer.email}</h5>
