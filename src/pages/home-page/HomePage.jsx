@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import "./HomePage.css"
-import { Route, Routes, Link, useLocation } from "react-router-dom";
+import { Route, Routes, Link, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Exercises from "../../components/workouts/Workouts";
 import AccountDetails from "../../components/account/AccountDetails";
@@ -11,6 +11,7 @@ import { useAccountContext } from "../../context/account.context";
 function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { trainer } = useAccountContext();
 
   // Close mobile menu when route changes
@@ -38,7 +39,7 @@ function HomePage() {
           <div
             className="d-flex align-items-center gap-2"
             style={{ cursor: "pointer" }}
-            onClick={() => window.location.href = '/home/trainer-details'}
+            onClick={() => navigate('/home/trainer-details')}
           >
             <img src="/images/favicon.ico" alt="Logo" style={{width: "32px", height: "32px"}}/>
             <h5 className="mb-0 fw-bold">FitTracker</h5>
