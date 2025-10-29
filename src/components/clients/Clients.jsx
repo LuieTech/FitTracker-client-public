@@ -3,6 +3,7 @@ import CreateClient from "./CreateClient";
 import { createClient, getClients } from "../../services/client.service";
 import { useAccountContext } from "../../context/account.context";
 import { Link } from "react-router-dom";
+import { getAvatarUrl } from "../../utils/avatar";
 
 function Clients() {
   const [clients, setClients] = useState(null);
@@ -38,7 +39,7 @@ useEffect(() => {
         <div className="card-body p-3">
           <div className="d-flex align-items-center gap-3 mb-3">
             <img 
-              src={`https://i.pravatar.cc/150?img=${cl.id}`}
+              src={getAvatarUrl(cl.id, 150)}
               alt={cl.name}
               className="rounded-circle flex-shrink-0 shadow-sm"
               style={{ width: '60px', height: '60px', objectFit: 'cover', border: '3px solid #f8f9fa' }}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getClientById, deleteClientById } from "../../services/client.service";
 import ClientExercises from "./ClientExercises";
+import { getAvatarUrl } from "../../utils/avatar";
 
 function ClientDetails() {
   const { clientId } = useParams();
@@ -101,7 +102,7 @@ function ClientDetails() {
       <div className="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-3 mb-4 pb-3 border-bottom">
         <div className="flex-shrink-0">
           <img
-            src={`https://i.pravatar.cc/150?img=${clientId}`}
+            src={getAvatarUrl(clientId, 150)}
             alt="client avatar"
             className="rounded-circle shadow-sm"
             style={{ width: "100px", height: "100px", objectFit: "cover" }}
