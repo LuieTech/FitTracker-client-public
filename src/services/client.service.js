@@ -38,7 +38,7 @@ export function createClient(body) {
     .post("/clients", body)
     .then((res) => res.data)
     .catch((error) => {
-      console.log("Error while creating client in service: ", error);
+      console.error("Error while creating client in service: ", error);
       throw error;
     });
 }
@@ -74,7 +74,7 @@ export function deleteClientById(clientId) {
       if (error.response?.status === 404) {
         return Promise.reject("Client not found");
       } else {
-        console.log(error.response?.data?.message || error.message);
+        console.error("Error deleting client:", error.response?.data?.message || error.message);
         throw error;
       }
     });

@@ -18,7 +18,6 @@ function ClientDetails() {
       const client = await getClientById(clientId);
       const response = await client;
       response && setClient(response);
-      // console.log("This is the client object: ", response);
     } catch (error) {
       console.error("Error fectching client from CLientDetails: ", error);
     }
@@ -54,8 +53,6 @@ function ClientDetails() {
       setShowDeleteConfirm(false);
     }
   };
-
-  console.log("This is the client object: ", client);
 
   return (
     <div

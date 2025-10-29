@@ -17,8 +17,6 @@ function ClientExercises({ clientId }) {
       setLoading(true);
       const data = await getExercisesByClientId(clientId);
       setExercises(data);
-      console.log("This is the Client exercises: ", data);
-      
       setError(null);
     } catch (err) {
       console.error("Error fetching client exercises:", err);

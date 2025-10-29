@@ -45,7 +45,10 @@ export function loginTrainer(body) {
       return service.get("/auth/me");
     })
     .then((res) => res.data)
-    .catch((error) => console.log("Error during login: ", error));
+    .catch((error) => {
+      console.error("Error during login: ", error);
+      throw error;
+    });
 }
 
 export function refreshTrainerData() {
@@ -53,8 +56,8 @@ export function refreshTrainerData() {
     .get("/auth/me")
     .then((res) => res.data)
     .catch((error) => {
-      console.log("Error during refreshing user: ", error);
-      throw error; // <--- este throw es importante para que el catch en AccountContext lo capture
+      console.error("Error during refreshing user: ", error);
+      throw error;
     });
 }
 

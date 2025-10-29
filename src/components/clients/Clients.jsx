@@ -18,8 +18,7 @@ useEffect(() => {
 
   const obtainClients = async (trainerId) => {
     const response = await getClients(trainerId);
-    setClients(response)
-    console.log("This is clients length from Clients Component", response.length);
+    setClients(response);
   };
 
   const handleCreate = (data) => {

@@ -26,7 +26,6 @@ function Workouts() {
   };
 
   const handleClientSelect = (client) => {
-    console.log("Selected client:", client);
     setSelectedClient(client);
   };
 
@@ -46,12 +45,7 @@ function Workouts() {
           client: { id: selectedClient.id.toString() },
         };
         
-        
-        console.log("Sending exercise to backend:", modifiedExercise);
-        console.log("Auth token present:", !!localStorage.getItem("authToken"));
-        
         const response = await addExercise(modifiedExercise);
-        console.log("Exercise saved successfully:", response);
         setNotification(`Exercise added successfully for ${selectedClient.name}!`);
       } catch (error) {
         console.error("Error from saveExerciseToBackend function: ", error);

@@ -14,8 +14,6 @@ export default function AccountDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trainer?.id]);
 
-  console.log("This is clients lenght from AcccountDetails: ", clientsCount);
-
   return (
     <div
       className="container bg-white rounded shadow-sm p-4"

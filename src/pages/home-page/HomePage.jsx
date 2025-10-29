@@ -35,7 +35,11 @@ function HomePage() {
       {/* Mobile Top Navbar */}
       <nav className="mobile-navbar">
         <div className="mobile-navbar-content">
-          <div className="d-flex align-items-center gap-2">
+          <div
+            className="d-flex align-items-center gap-2"
+            style={{ cursor: "pointer" }}
+            onClick={() => window.location.href = '/home/trainer-details'}
+          >
             <img src="/images/favicon.ico" alt="Logo" style={{width: "32px", height: "32px"}}/>
             <h5 className="mb-0 fw-bold">FitTracker</h5>
           </div>

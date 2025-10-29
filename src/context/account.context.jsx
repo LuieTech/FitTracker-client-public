@@ -30,7 +30,6 @@ useEffect(() => {
           trainerData = await refreshTrainerData();
         } catch (refreshError) {
           // Si el refresh falla, limpiar storage y hacer login manual
-          console.warn("Refresh failed, logging in manually...", refreshError);
           localStorage.removeItem("authToken");
           localStorage.removeItem("refreshToken");
           trainerData = await loginTrainer({
@@ -52,7 +51,7 @@ useEffect(() => {
         }
       }
     } catch (error) {
-      console.log("Auto-login failed", error);
+      console.error("Auto-login failed", error);
     }
   };
 
@@ -80,8 +79,6 @@ useEffect(() => {
     refreshClients
     
   };
-
-  console.log("This is the trainer logged: ", trainer, trainerId);
 
   return (
     <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
