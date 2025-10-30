@@ -8,6 +8,7 @@ import { getAvatarUrl } from "../../utils/avatar";
 function Clients() {
   const [clients, setClients] = useState(null);
   const { trainer } = useAccountContext();
+  const [notification, setNotification] = useState("");
 
 useEffect(() => {
   if (trainer.id) {
@@ -15,6 +16,12 @@ useEffect(() => {
   }
 }, [trainer.id]); // <-- depend on trainerId
 
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
   const obtainClients = async (trainerId) => {
     const response = await getClients(trainerId);
@@ -22,12 +29,18 @@ useEffect(() => {
   };
 
   const handleCreate = (data) => {
+    // Check if limit is reached
+    if (clients && clients.length >= 6) {
+      setNotification("Client list limited to 6. Please delete one or more to create a new one.");
+      return;
+    }
+
     createClient(data)
       .then(() => {
         obtainClients(trainer.id)
         getClients(trainer.id)
       })
-      .catch((err) => {
+      .catch(() => {
         // Handle error silently or show user notification if needed
       });
   };
@@ -64,8 +77,35 @@ useEffect(() => {
 
   return (
     <div className="main px-2 px-md-3">
+      {notification && (
+        <div
+          className="alert alert-warning alert-dismissible fade show"
+          role="alert"
+          style={{
+            position: "fixed",
+            top: "70px",
+            right: "10px",
+            left: "10px",
+            zIndex: 1050,
+            maxWidth: "500px",
+            margin: "0 auto",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {notification}
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setNotification("")}
+            aria-label="Close"
+          ></button>
+        </div>
+      )}
       <div className="clients-container mb-4 bg-white rounded shadow-sm">
-        <CreateClient onCreate={handleCreate} />
+        <CreateClient 
+          onCreate={handleCreate} 
+          isLimitReached={clients && clients.length >= 6}
+        />
       </div>
 
       <div className="container-fluid px-0">

@@ -59,11 +59,13 @@ function HomePage() {
         <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}>
           <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-header">
-              <div className="d-flex align-items-center gap-2 mb-3">
+              <div className="d-flex align-items-center gap-2">
                 <img 
-                  src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg" 
+                  // src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg" 
+                  src={trainer.avatar || "https://i.pravatar.cc/130?img=3"}
                   alt="avatar" 
-                  style={{width:"40px", height: "40px"}}
+                  style={{width:"50px", height: "50px"}}
+                  className="rounded-circle"
                 />
                 <span className="fw-semibold">John</span>
               </div>

@@ -307,7 +307,7 @@ function ClientDetails() {
               </p>
             ) : (
               <p className="mb-0 text-muted fst-italic" style={{ fontSize: '0.9rem' }}>
-                Click to add notes or comments...
+                Click to add notes...
               </p>
             )}
           </div>
@@ -321,8 +321,8 @@ function ClientDetails() {
           href="/home/clients" 
           className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1"
         >
-          <i className="bi bi-arrow-left-circle"></i>
-          <span>Back to Clients</span>
+          <i className="bi bi-arrow-left-circle "></i>
+          <span className="d-none d-sm-inline">Back</span>
         </a>
 
         {/* Status Switch */}
@@ -351,7 +351,7 @@ function ClientDetails() {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div
-          className="modal show d-block"
+          className="modal show d-flex justify-content-center align-items-center"
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
           <div className="modal-dialog modal-dialog-centered">

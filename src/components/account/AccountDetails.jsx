@@ -19,19 +19,20 @@ export default function AccountDetails() {
       className="container bg-white rounded shadow-sm p-4"
       style={{ maxWidth: "850px" }}
     >
-      <div className="pb-4 col-12 text-center text-md-start">
+      <div className="pb-md-2 col-12 text-center text-md-start">
         <img
           src={trainer.avatar || "https://i.pravatar.cc/130?img=3"}
           alt="Trainer avatar"
-          className="img-thumbnail"
-          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+          className="img-thumbnail "
+          style={{ width: "120px", height: "120px", objectFit: "cover" }}
         />
+        <h4 className="fw-bold mt-2">Trainer</h4>
       </div>
 
-      <h4 className="fw-bold">Trainer</h4>
+      
 
       <div className="mb-3">
-        <label className="form-label text-muted">User nickname</label>
+        <label className="form-label text-muted">Nickname</label>
         <h5 className="text-secondary">John</h5>
       </div>
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAccountContext } from "../../context/account.context";
 import { getClients } from "../../services/client.service";
 
-function CreateClient({ onCreate }) {
+function CreateClient({ onCreate, isLimitReached }) {
   const { trainerId, setClients } = useAccountContext();
 
   const initialFormData = {
@@ -41,10 +41,17 @@ function CreateClient({ onCreate }) {
       onSubmit={handleSubmit}
       style={{ maxWidth: "800px" }}
     >
-      <h5 className="fw-bold mb-3">
-        <i className="bi bi-person-plus-fill me-2 text-success"></i>
-        Add New Client
-      </h5>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h5 className="fw-bold mb-0">
+          <i className="bi bi-person-plus-fill me-2 text-success"></i>
+          Add New Client
+        </h5>
+        {isLimitReached && (
+          <span className="badge bg-warning text-dark">
+            Limit Reached (6/6)
+          </span>
+        )}
+      </div>
       <div className="row g-2 g-md-3">
         <div className="col-12 col-md-6">
           <label className="form-label small text-muted mb-1">Name *</label>
@@ -111,6 +118,8 @@ function CreateClient({ onCreate }) {
           <button 
             className="btn btn-success d-flex align-items-center gap-2" 
             type="submit"
+            disabled={isLimitReached}
+            title={isLimitReached ? "Client limit reached (6 max)" : ""}
           >
             <i className="bi bi-check-circle"></i>
             <span>Create Client</span>

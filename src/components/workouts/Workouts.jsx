@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getRapidApi } from "../../services/rapidapi.service";
-import { addExercise } from "../../services/exercise.service";
+import { addExercise, getExercisesByClientId } from "../../services/exercise.service";
 import WorkoutDetails from "./WorkoutDetails";
 import SelectClient from "../clients/SelectClient";
 
@@ -37,6 +37,13 @@ function Workouts() {
 
     if (exercise) {
       try {
+        // Check if client has reached the exercise limit
+        const existingExercises = await getExercisesByClientId(selectedClient.id);
+        if (existingExercises && existingExercises.length >= 6) {
+          setNotification(`Exercise limit reached for ${selectedClient.name} (6/6). Please delete one or more exercises to add a new one.`);
+          return;
+        }
+
         const modifiedExercise = {
           gifUrl: exercise.id.toString(), // 👈 storing the image ID, not an actual URL
           name: exercise.name,
@@ -45,7 +52,7 @@ function Workouts() {
           client: { id: selectedClient.id.toString() },
         };
         
-        const response = await addExercise(modifiedExercise);
+        await addExercise(modifiedExercise);
         setNotification(`Exercise added successfully for ${selectedClient.name}!`);
       } catch (error) {
         if (error.response?.status === 403) {
