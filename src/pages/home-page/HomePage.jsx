@@ -103,7 +103,13 @@ function HomePage() {
         </section>
         <section>
           <div className="d-flex align-items-center justify-content-center gap-2">
-            <img src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg" alt="avatar" style={{width:"25%"}}/>
+            <img 
+              // src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+              src={trainer.avatar || "https://i.pravatar.cc/130?img=3"}
+              alt="avatar" 
+              style={{width:"30%", height: "30%", objectFit: "cover"}}
+              className="rounded-circle"
+            />
             <div>
               <h5 className="mb-0 fw-bold">Hi<span className="text-primary"><i> {trainer?.name}</i></span> </h5>
             </div>
