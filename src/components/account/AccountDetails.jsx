@@ -28,14 +28,7 @@ export default function AccountDetails() {
         />
         <h4 className="fw-bold mt-2">Trainer</h4>
       </div>
-
-      
-
-      <div className="mb-3">
-        <label className="form-label text-muted">Nickname</label>
-        <h5 className="text-secondary">John</h5>
-      </div>
-
+      {/* Name and Last Name */}
       <div className="row">
         <div className="col-md-6 mb-3">
           <label className="form-label text-muted">First Name</label>
