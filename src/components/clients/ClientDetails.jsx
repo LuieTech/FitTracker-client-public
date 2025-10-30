@@ -318,7 +318,7 @@ function ClientDetails() {
       <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 py-3 border-top">
         {/* Back Button */}
         <a 
-          href="/home/clients" 
+          onClick={() => navigate("/home/clients")}          
           className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1"
         >
           <i className="bi bi-arrow-left-circle "></i>
