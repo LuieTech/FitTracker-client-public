@@ -76,7 +76,7 @@ useEffect(() => {
   ));
 
   return (
-    <div className="main px-2 px-md-3">
+    <div className="main px-2 px-md-3 ">
       {notification && (
         <div
           className="alert alert-warning alert-dismissible fade show"

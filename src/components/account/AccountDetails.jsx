@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAccountContext } from "../../context/account.context";
 import { getClients } from "../../services/client.service";
+import "./AccountDetails.css";
 
 export default function AccountDetails() {
   const { trainer, clientsCount, setClientsCount } = useAccountContext();
@@ -16,7 +17,7 @@ export default function AccountDetails() {
 
   return (
     <div
-      className="container bg-white rounded shadow-sm p-4"
+      className="account-details container bg-white rounded shadow-sm p-3"
       style={{ maxWidth: "850px" }}
     >
       <div className="pb-md-2 col-12 text-center text-md-start">
@@ -58,21 +59,39 @@ export default function AccountDetails() {
         </div>
       </div>
 
-      <div className="mb-3">
+      <div className="mb-5">
         <label className="form-label text-muted">Notes</label>
-        <p className="text-secondary">
-          {trainer.notes || "No notes available."}
-        </p>
+        <div className="text-secondary">
+          <p className="fw-bold">Welcome to FitTracker!</p>
+          <ol>
+            <li>
+              Go to the <strong>"Clients"</strong> tab to add new clients.
+            </li>
+            <li>
+              View available workouts under the <strong>"Workouts"</strong> tab.
+            </li>
+            <li>
+              Add workouts to your clients by selecting a client and hitting{" "}
+              <strong>"Save"</strong>.
+            </li>
+            <li>Open client's details by clicking on the client's name.</li>
+            <li>Have fun exploring the app!</li>
+          </ol>
+        </div>
       </div>
 
-      <div className="row mb-3">
-        <div className="col-md-6">
-          <label className="form-label text-muted">Clients</label>
-          <h5 className="text-primary">{clientsCount}</h5>
+      <div className=" pb-4 ">
+        
+      <div className="col-6 d-flex align-items-center">
+          <label className="form-label text-muted ">Clients</label>
+          <div>
+            <h5 className="text-primary ps-4">{clientsCount}</h5>
+          </div>
+          
         </div>
-        <div className="col-md-6 d-flex align-items-center">
-          <label className="form-label text-muted me-3">Status</label>
-          <div className="form-check form-switch d-flex align-items-center gap-2">
+        <div className="col-6 d-flex align-items-center gap-4">
+          <label className="form-label text-muted mb-0">Status</label>
+          <div className="form-check form-switch d-flex justify-content-center gap-3 align-items-center">
             <input
               className="form-check-input"
               type="checkbox"
@@ -85,6 +104,7 @@ export default function AccountDetails() {
             </label>
           </div>
         </div>
+        
       </div>
     </div>
   );
