@@ -10,36 +10,11 @@
     transform-origin: center;
     width: 20px !important;
     height: 10px !important;
-    /* margin-top: 0 !important;
-    margin-left: 0 !important; */
+    /* margin-top: 0 !important; */
+    /* margin-left: 0 !important;  */
     
   }
 
 }
   
-
-  /* .form-check-input {
-    margin-left: 0 !important;
-  }
-
-  .account-details .row.mb-4.align-items-center {
-    align-items: flex-start !important; 
-  }
-
-  .account-details .col-6:last-child {
-    align-items: center !important; 
-    text-align: center;
-  }
-
-  .account-details .form-check.form-switch {
-    justify-content: center;
-  } */
-}
-
-/* .account-details .form-check.form-switch {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: px;
-} */
 

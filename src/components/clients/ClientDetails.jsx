@@ -326,22 +326,17 @@ function ClientDetails() {
         </a>
 
         {/* Status Switch */}
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center gap-3 gap-lg-2">
           <span className="text-muted small">Status:</span>
-          <div className="form-check form-switch mb-0">
+          <div className="form-check form-switch d-flex justify-content-center gap-3 gap-lg-1 align-items-center">
             <input
               className="form-check-input"
               type="checkbox"
               id="statusSwitch"
               checked={status}
               onChange={() => setStatus((prev) => !prev)}
-              style={{ cursor: 'pointer' }}
             />
-            <label 
-              className="form-check-label small fw-bold" 
-              htmlFor="statusSwitch"
-              style={{ cursor: 'pointer' }}
-            >
+            <label className="form-check-label" htmlFor="statusSwitch">
               {status ? "Active" : "Inactive"}
             </label>
           </div>
